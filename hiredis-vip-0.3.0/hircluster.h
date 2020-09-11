@@ -74,6 +74,7 @@ extern "C" {
 typedef struct redisClusterContext {
     int err; /* Error flags, 0 when there is no error */
     char errstr[128]; /* String representation of error when applicable */
+    char auth[128];
     sds ip;
     int port;
 
@@ -99,6 +100,7 @@ typedef struct redisClusterContext {
 } redisClusterContext;
 
 redisClusterContext *redisClusterConnect(const char *addrs, int flags);
+redisClusterContext *redisClusterConnectWithAuth(const char *addrs, const char *auth, int flags);
 redisClusterContext *redisClusterConnectWithTimeout(const char *addrs, 
     const struct timeval tv, int flags);
 // redisClusterContext *redisClusterConnectNonBlock(const char *addrs, int flags);
@@ -144,7 +146,7 @@ typedef struct redisClusterAsyncContext {
     /* Setup error flags so they can be used directly. */
     int err;
     char errstr[128]; /* String representation of error when applicable */
-    char auth[128];
+
 
     /* Not used by hiredis */
     void *data;
